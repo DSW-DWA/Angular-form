@@ -1,22 +1,22 @@
 <form>
 <mat-form-field appearance="fill">
-  <mat-label class="label-house">Выберите дом</mat-label>
+  <mat-label class="label-house">Дом</mat-label>
   <mat-select [(value)]="idSelectHouse" (valueChange)="ChangeOpt()">
     <mat-option *ngFor="let street of HOUSES" value="{{street.id}}">{{street.name}}</mat-option>
   </mat-select>
 </mat-form-field>
 
 <form>
-<mat-form-field class="example-full-width" appearance="fill">
-  <mat-label class="label-apartments" >Number</mat-label>
+<mat-form-field appearance="fill">
+  <mat-label class="label-apartments" >Помещение</mat-label>
   <input type="text"
-          placeholder="Pick one"
-          aria-label="Number"
+          placeholder="Выберите Помещение"
+          aria-label="Помещение"
           matInput
-          [(ngModel)]="selectedValue"
+          [(ngModel)]="selectedHouse"
           [formControl]="myControl"
           [matAutocomplete]="auto">
-  <mat-autocomplete (optionSelected)="show()" autoActiveFirstOption #auto="matAutocomplete" [displayWith]="displayFn">
+  <mat-autocomplete (optionSelected)="ChangeChildOpt()" autoActiveFirstOption #auto="matAutocomplete" [displayWith]="displayFn">
     <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
       {{option.name}}
     </mat-option>
@@ -26,11 +26,12 @@
 
 <form>
 <mat-form-field appearance="fill">
-  <mat-label class="label-apartments" >Number</mat-label>
+  <mat-label class="label-apartments" >Житель</mat-label>
   <input type="text"
-          placeholder="Pick one"
-          aria-label="Number"
+          placeholder="Выберите жителя"
+          aria-label="Житель"
           matInput
+          [(ngModel)]="selectedMan"
           [formControl]="myControl1"
           [matAutocomplete]="autoNationality">
   <mat-autocomplete #autoNationality="matAutocomplete" autoActiveFirstOption #auto="matAutocomplete" [displayWith]="displayFn1">
