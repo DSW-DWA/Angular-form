@@ -1,7 +1,7 @@
 <form>
 <mat-form-field appearance="fill">
   <mat-label class="label-house">Дом</mat-label>
-  <mat-select [(value)]="idSelectHouse" (valueChange)="ChangeApart()">
+  <mat-select [(value)]="idSelectApart" (valueChange)="ChangeApart()">
     <mat-option *ngFor="let street of HOUSES" value="{{street.id}}">{{street.name}}</mat-option>
   </mat-select>
 </mat-form-field>
@@ -12,11 +12,11 @@
           placeholder="Выберите Помещение"
           aria-label="Помещение"
           matInput
-          [(ngModel)]="selectedHouse"
+          [(ngModel)]="selectedApart"
           [formControl]="controlApart"
           [matAutocomplete]="auto" 
           required>
-  <mat-autocomplete (optionSelected)="ChangePerson()" autoActiveFirstOption #auto="matAutocomplete" [displayWith]="displayFn">
+  <mat-autocomplete (optionSelected)="ChangePerson()" autoActiveFirstOption #auto="matAutocomplete" [displayWith]="displayApart">
     <mat-option *ngFor="let option of filteredApart | async" [value]="option">
       {{option.name}}
     </mat-option>
@@ -32,11 +32,11 @@
           placeholder="Выберите жителя"
           aria-label="Житель"
           matInput
-          [(ngModel)]="selectedMan"
+          [(ngModel)]="selectedPerson"
           [formControl]="controlPerson"
           [matAutocomplete]="autoNationality"
           required>
-  <mat-autocomplete #autoNationality="matAutocomplete" autoActiveFirstOption #auto="matAutocomplete" [displayWith]="displayFn1">
+  <mat-autocomplete #autoNationality="matAutocomplete" autoActiveFirstOption #auto="matAutocomplete" [displayWith]="displayPerson">
     <mat-option *ngFor="let option1 of filteredPerson | async" [value]="option1">
       {{option1.name}}
     </mat-option>
@@ -45,5 +45,4 @@
   <mat-error *ngIf="controlPerson.hasError('required')">Это поле должно быть заполнено</mat-error>
   <mat-error *ngIf="controlPerson.hasError('invalidAutocompleteObject')">Нужно выбрать значение из списка</mat-error>
 </mat-form-field>
-
 </form>
