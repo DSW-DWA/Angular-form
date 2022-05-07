@@ -13,4 +13,4 @@ export interface Apartment {
     "hid": number,
     "name": string,
     "area": number
-} 
+}
