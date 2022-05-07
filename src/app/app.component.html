@@ -6,7 +6,7 @@
   </mat-select>
 </mat-form-field>
 
-
+<form>
 <mat-form-field class="example-full-width" appearance="fill">
   <mat-label class="label-apartments" >Number</mat-label>
   <input type="text"
@@ -16,12 +16,28 @@
           [(ngModel)]="selectedValue"
           [formControl]="myControl"
           [matAutocomplete]="auto">
-  <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete" [displayWith]="displayFn" (optionSelected)="show()">
+  <mat-autocomplete (optionSelected)="show()" autoActiveFirstOption #auto="matAutocomplete" [displayWith]="displayFn">
     <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
       {{option.name}}
     </mat-option>
   </mat-autocomplete>
 </mat-form-field>
+</form>
 
-<app-autocomplete-people></app-autocomplete-people>
+<form>
+<mat-form-field appearance="fill">
+  <mat-label class="label-apartments" >Number</mat-label>
+  <input type="text"
+          placeholder="Pick one"
+          aria-label="Number"
+          matInput
+          [formControl]="myControl1"
+          [matAutocomplete]="autoNationality">
+  <mat-autocomplete #autoNationality="matAutocomplete" autoActiveFirstOption #auto="matAutocomplete" [displayWith]="displayFn1">
+    <mat-option *ngFor="let option1 of filteredOptions1 | async" [value]="option1">
+      {{option1.name}}
+    </mat-option>
+  </mat-autocomplete>
+</mat-form-field>
+
 </form>
