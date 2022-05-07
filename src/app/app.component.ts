@@ -10,9 +10,18 @@ import persons from './persons.json';
 import { Person } from './interfaces';
 
 
-import {FormControl} from '@angular/forms';
+import {AbstractControl, FormControl, ValidatorFn, Validators } from '@angular/forms';
 import {Observable} from 'rxjs';
 import {map, startWith} from 'rxjs/operators';
+
+function autocompleteObjectValidator(): ValidatorFn {
+  return (control: AbstractControl): { [key: string]: any } | null => {
+    if (typeof control.value === 'string') {
+      return { 'invalidAutocompleteObject': { value: control.value } }
+    }
+    return null  /* valid option selected */
+  }
+}
 
 @Component({
   selector: 'app-root',
@@ -20,10 +29,11 @@ import {map, startWith} from 'rxjs/operators';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit{
+
   // initialization variables
   idSelectHouse: number = 0;
   HOUSES: House[] = houses;
-  myControl = new FormControl();
+  myControl = new FormControl('', { validators: [autocompleteObjectValidator(), Validators.required] });
   options: Apartment[] = [...apartments];
   filteredOptions!: Observable<Apartment[]>;
   selectedHouse:Apartment ={
@@ -39,7 +49,7 @@ export class AppComponent implements OnInit{
     name: ""
   }
 
-  myControl1 = new FormControl();
+  myControl1 = new FormControl('', { validators: [autocompleteObjectValidator(), Validators.required] });
   filteredOptions1!: Observable<Person[]>;
 
   ngOnInit() {

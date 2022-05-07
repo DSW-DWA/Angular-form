@@ -1,10 +1,8 @@
-.label-apartments::after{
-    color: red;
-    content: " *";
-}
+
 form{
     width: 320px;
 }
 mat-form-field{
     width: 100%;
+    margin-bottom: 20px;
 }

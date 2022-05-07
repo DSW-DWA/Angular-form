@@ -5,6 +5,7 @@
     <mat-option *ngFor="let street of HOUSES" value="{{street.id}}">{{street.name}}</mat-option>
   </mat-select>
 </mat-form-field>
+</form>
 
 <form>
 <mat-form-field appearance="fill">
@@ -15,7 +16,9 @@
           matInput
           [(ngModel)]="selectedHouse"
           [formControl]="myControl"
-          [matAutocomplete]="auto">
+          [matAutocomplete]="auto" required>
+          <mat-error *ngIf="myControl.hasError('required')">Это поле должно быть заполнено</mat-error>
+          <mat-error *ngIf="myControl.hasError('invalidAutocompleteObject')">Нужно выбрать значение из списка</mat-error>
   <mat-autocomplete (optionSelected)="ChangeChildOpt()" autoActiveFirstOption #auto="matAutocomplete" [displayWith]="displayFn">
     <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
       {{option.name}}
@@ -33,7 +36,10 @@
           matInput
           [(ngModel)]="selectedMan"
           [formControl]="myControl1"
-          [matAutocomplete]="autoNationality">
+          [matAutocomplete]="autoNationality"
+           required>
+           <mat-error *ngIf="myControl1.hasError('required')">Это поле должно быть заполнено</mat-error>
+           <mat-error *ngIf="myControl1.hasError('invalidAutocompleteObject')">Нужно выбрать значение из списка</mat-error>
   <mat-autocomplete #autoNationality="matAutocomplete" autoActiveFirstOption #auto="matAutocomplete" [displayWith]="displayFn1">
     <mat-option *ngFor="let option1 of filteredOptions1 | async" [value]="option1">
       {{option1.name}}
