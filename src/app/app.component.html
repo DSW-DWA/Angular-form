@@ -1,4 +1,4 @@
-
+<form>
 <mat-form-field appearance="fill">
   <mat-label class="label-house">Выберите дом</mat-label>
   <mat-select [(value)]="idSelectHouse" (valueChange)="ChangeOpt()">
@@ -22,3 +22,6 @@
     </mat-option>
   </mat-autocomplete>
 </mat-form-field>
+
+<app-autocomplete-people></app-autocomplete-people>
+</form>
