@@ -1,7 +1,7 @@
 <form>
 <mat-form-field appearance="fill">
   <mat-label class="label-house">Дом</mat-label>
-  <mat-select [(value)]="idSelectHouse" (valueChange)="ChangeOpt()">
+  <mat-select [(value)]="idSelectHouse" (valueChange)="ChangeApart()">
     <mat-option *ngFor="let street of HOUSES" value="{{street.id}}">{{street.name}}</mat-option>
   </mat-select>
 </mat-form-field>
@@ -13,17 +13,17 @@
           aria-label="Помещение"
           matInput
           [(ngModel)]="selectedHouse"
-          [formControl]="myControl"
+          [formControl]="controlApart"
           [matAutocomplete]="auto" 
           required>
-  <mat-autocomplete (optionSelected)="ChangeChildOpt()" autoActiveFirstOption #auto="matAutocomplete" [displayWith]="displayFn">
-    <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
+  <mat-autocomplete (optionSelected)="ChangePerson()" autoActiveFirstOption #auto="matAutocomplete" [displayWith]="displayFn">
+    <mat-option *ngFor="let option of filteredApart | async" [value]="option">
       {{option.name}}
     </mat-option>
   </mat-autocomplete>
 
-  <mat-error *ngIf="myControl.hasError('required')">Это поле должно быть заполнено</mat-error>
-  <mat-error *ngIf="myControl.hasError('invalidAutocompleteObject')">Нужно выбрать значение из списка</mat-error>
+  <mat-error *ngIf="controlApart.hasError('required')">Это поле должно быть заполнено</mat-error>
+  <mat-error *ngIf="controlApart.hasError('invalidAutocompleteObject')">Нужно выбрать значение из списка</mat-error>
 </mat-form-field>
 
 <mat-form-field appearance="fill">
@@ -33,17 +33,17 @@
           aria-label="Житель"
           matInput
           [(ngModel)]="selectedMan"
-          [formControl]="myControl1"
+          [formControl]="controlPerson"
           [matAutocomplete]="autoNationality"
           required>
   <mat-autocomplete #autoNationality="matAutocomplete" autoActiveFirstOption #auto="matAutocomplete" [displayWith]="displayFn1">
-    <mat-option *ngFor="let option1 of filteredOptions1 | async" [value]="option1">
+    <mat-option *ngFor="let option1 of filteredPerson | async" [value]="option1">
       {{option1.name}}
     </mat-option>
   </mat-autocomplete>
 
-  <mat-error *ngIf="myControl1.hasError('required')">Это поле должно быть заполнено</mat-error>
-  <mat-error *ngIf="myControl1.hasError('invalidAutocompleteObject')">Нужно выбрать значение из списка</mat-error>
+  <mat-error *ngIf="controlPerson.hasError('required')">Это поле должно быть заполнено</mat-error>
+  <mat-error *ngIf="controlPerson.hasError('invalidAutocompleteObject')">Нужно выбрать значение из списка</mat-error>
 </mat-form-field>
 
 </form>

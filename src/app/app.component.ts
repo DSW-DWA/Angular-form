@@ -33,56 +33,63 @@ export class AppComponent implements OnInit{
   // initialization variables
   idSelectHouse: number = 0;
   HOUSES: House[] = houses;
-  myControl = new FormControl('', { validators: [autocompleteObjectValidator(), Validators.required] });
-  options: Apartment[] = [...apartments];
-  filteredOptions!: Observable<Apartment[]>;
+  
+  
+  optionsApart: Apartment[] = [...apartments];
+  optionPerson: Person[] = [...persons];
+
+  filteredPerson!: Observable<Person[]>;
+  filteredApart!: Observable<Apartment[]>;
+
+  controlApart = new FormControl('', { validators: [autocompleteObjectValidator(), Validators.required] });
+  controlPerson = new FormControl('', { validators: [autocompleteObjectValidator(), Validators.required] });
+
   selectedHouse:Apartment ={
     id: -1,
     hid: -1,
     name:"",
     area:-1
   };
-  optionForChild: Person[] = [...persons];
   selectedMan: Person = {
     id: -1,
     aid: -1,
     name: ""
   }
 
-  myControl1 = new FormControl('', { validators: [autocompleteObjectValidator(), Validators.required] });
-  filteredOptions1!: Observable<Person[]>;
-
   ngOnInit() {
+
     // create option array for first autocomplete
-    this.options.forEach(item =>{
-      let ind:number = this.options.indexOf(item);
+    this.optionsApart.forEach(item =>{
+      let ind:number = this.optionsApart.indexOf(item);
       this.HOUSES.forEach(element =>{
-        if (element.id == this.options[ind].hid) {this.options[ind].name = element.name + ", " + this.options[ind].name;}
+        if (element.id == this.optionsApart[ind].hid) {this.optionsApart[ind].name = element.name + ", " + this.optionsApart[ind].name;}
       })
     })
+
     //filtered options
-    this.filteredOptions = this.myControl.valueChanges.pipe(
+    this.filteredApart = this.controlApart.valueChanges.pipe(
       startWith(''),
       map(value => (typeof value === 'string' ? value : value.name)),
-      map(name => (name ? this._filter(name) : this.options.slice())),
+      map(name => (name ? this._filter(name) : this.optionsApart.slice())),
     );
-    this.filteredOptions1 = this.myControl.valueChanges.pipe(
+    this.filteredPerson = this.controlPerson.valueChanges.pipe(
       startWith(''),
       map(value => (typeof value === 'string' ? value : value.name)),
-      map(name => (name ? this._filter1(name) : this.optionForChild.slice())),
+      map(name => (name ? this._filter1(name) : this.optionPerson.slice())),
     );
+
   }
 
   // filter
   private _filter(name: string): Apartment[] {
     const filterValue = name.toLowerCase();
 
-    return this.options.filter(option => option.name.toLowerCase().includes(filterValue));
+    return this.optionsApart.filter(option => option.name.toLowerCase().includes(filterValue));
   }
   private _filter1(name: string): Person[] {
     const filterValue = name.toLowerCase();
 
-    return this.optionForChild.filter(optionForChild => optionForChild.name.toLowerCase().includes(filterValue));
+    return this.optionPerson.filter(optionForChild => optionForChild.name.toLowerCase().includes(filterValue));
   }
 
   // displayFn for visualisation in mat-autocmoplete
@@ -94,8 +101,8 @@ export class AppComponent implements OnInit{
   }
 
   // change option for first autocomplete
-  ChangeOpt(){
-    this.options.length = 0;
+  ChangeApart(){
+    this.optionsApart.length = 0;
     this.selectedHouse = {
       id: -1,
       hid: -1,
@@ -112,30 +119,29 @@ export class AppComponent implements OnInit{
       if (element.id == this.idSelectHouse ) {NameSelectHouse = element.name; return}
     })
     apartments.forEach(item => {
-      if (item.hid == this.idSelectHouse) this.options.push(item);
+      if (item.hid == this.idSelectHouse) this.optionsApart.push(item);
     });
-    this.filteredOptions = this.myControl.valueChanges.pipe(
+    this.filteredApart = this.controlApart.valueChanges.pipe(
       startWith(''),
       map(value => (typeof value === 'string' ? value : value.name)),
-      map(name => (name ? this._filter(name) : this.options.slice())),
+      map(name => (name ? this._filter(name) : this.optionsApart.slice())),
     );
   }
-
   // change option for second autocomplete
-  ChangeChildOpt(){
+  ChangePerson(){
     this.selectedMan = {
       id: -1,
       aid: -1,
       name: ""
     }
-    this.optionForChild.length = 0;
+    this.optionPerson.length = 0;
     persons.forEach(element=>{
-      if ( this.selectedHouse.id == -1 ||element.aid == this.selectedHouse.id) this.optionForChild.push(element);
+      if ( this.selectedHouse.id == -1 ||element.aid == this.selectedHouse.id) this.optionPerson.push(element);
     })
-    this.filteredOptions1 = this.myControl.valueChanges.pipe(
+    this.filteredPerson = this.controlPerson.valueChanges.pipe(
       startWith(''),
       map(value => (typeof value === 'string' ? value : value.name)),
-      map(name => (name ? this._filter1(name) : this.optionForChild.slice())),
+      map(name => (name ? this._filter1(name) : this.optionPerson.slice())),
     );
   }
 }
