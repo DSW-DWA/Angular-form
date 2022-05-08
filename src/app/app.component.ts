@@ -32,7 +32,7 @@ function autocompleteObjectValidator(): ValidatorFn {
 export class AppComponent implements OnInit{
 
   // initialization variables
-  idSelectHouse: number = 0;
+  idSelectHouse: number = -1;
   HOUSES: House[] = houses;
   
   answer: string ="";
@@ -152,23 +152,19 @@ export class AppComponent implements OnInit{
   revPerson(){
     if (this.selectedApart.id == -1) {
       apartments.forEach(item =>{
-        if (item.id == this.selectedPerson.aid) this.selectedApart = item;
+        if (item.id == this.selectedPerson.aid) {this.selectedApart = item;}
       });
     }
   }
   //button disable checker
   Check(){
-    let PersonEr: boolean = (this.controlPerson.hasError('required') || this.controlPerson.hasError('invalidAutocompleteObject'));
-    let ApartEr: boolean = (this.controlApart.hasError('required') || this.controlApart.hasError('invalidAutocompleteObject'));
+    let personEr: boolean = (this.controlPerson.hasError('required') || this.controlPerson.hasError('invalidAutocompleteObject'));
+    let apartEr: boolean = (this.controlApart.hasError('required') || this.controlApart.hasError('invalidAutocompleteObject'));
     let miss: boolean = (this.selectedApart.id == -1 || this.selectedPerson.id == -1)
-    return (!PersonEr && !ApartEr && !miss);
+    return (!personEr && !apartEr && !miss);
   }
 
   Submit(){
-    let houseName: string ="";
-    this.HOUSES.forEach(item =>{
-      if (item.id == this.idSelectHouse) {houseName = houseName + item.name}
-    })
-    this.answer = this.answer + "{ house: " +houseName+ ", apartment: "+this.selectedApart.name.slice(this.selectedApart.name.search(',')+2,this.selectedApart.name.length)+", person: "+this.selectedPerson.name+"}.";
+    this.answer = this.answer + "{ house: " +this.selectedApart.name.slice(0,this.selectedApart.name.search(','))+ ", apartment: "+this.selectedApart.name.slice(this.selectedApart.name.search(',')+2,this.selectedApart.name.length)+", person: "+this.selectedPerson.name+"}.";
   }
 }
