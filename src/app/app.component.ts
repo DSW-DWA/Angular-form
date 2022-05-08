@@ -10,7 +10,7 @@ import persons from './persons.json';
 import { Person } from './interfaces';
 
 
-import {AbstractControl, FormControl, ValidatorFn, Validators } from '@angular/forms';
+import {AbstractControl, FormControl, ValidatorFn, Validators, NgForm } from '@angular/forms';
 import {Observable} from 'rxjs';
 import {map, startWith} from 'rxjs/operators';
 
@@ -32,7 +32,7 @@ function autocompleteObjectValidator(): ValidatorFn {
 export class AppComponent implements OnInit{
 
   // initialization variables
-  idSelectApart: number = 0;
+  idSelectHouse: number = 0;
   HOUSES: House[] = houses;
   
   
@@ -104,6 +104,7 @@ export class AppComponent implements OnInit{
   // change option for first autocomplete
   ChangeApart(){
     this.optionsApart.length = 0;
+    this.optionPerson.length = 0;
     this.selectedApart = {
       id: -1,
       hid: -1,
@@ -115,12 +116,13 @@ export class AppComponent implements OnInit{
       aid: -1,
       name: ""
     }
-    let NameSelectApart: string;
-    this.HOUSES.forEach(element =>{
-      if (element.id == this.idSelectApart ) {NameSelectApart = element.name; return}
-    })
     apartments.forEach(item => {
-      if (item.hid == this.idSelectApart) this.optionsApart.push(item);
+      if (item.hid == this.idSelectHouse) {
+        this.optionsApart.push(item);
+        persons.forEach(element =>{
+          if (element.aid == item.id) this.optionPerson.push(element);
+        })
+      }
     });
     this.filteredApart = this.controlApart.valueChanges.pipe(
       startWith(''),
@@ -137,12 +139,34 @@ export class AppComponent implements OnInit{
     }
     this.optionPerson.length = 0;
     persons.forEach(element=>{
-      if ( this.selectedApart.id == -1 ||element.aid == this.selectedApart.id) this.optionPerson.push(element);
+      if ( this.selectedApart.id == -1 || element.aid == this.selectedApart.id ) this.optionPerson.push(element);
     })
     this.filteredPerson = this.controlPerson.valueChanges.pipe(
       startWith(''),
       map(value => (typeof value === 'string' ? value : value.name)),
       map(name => (name ? this._filter1(name) : this.optionPerson.slice())),
     );
+  }
+  // returns apartments if they are not defined
+  revPerson(){
+    if (this.selectedApart.id == -1) {
+      apartments.forEach(item =>{
+        if (item.id == this.selectedPerson.aid) this.selectedApart = item;
+      });
+    }
+  }
+  //button disable checker
+  Check(){
+    let PersonEr: boolean = (this.controlPerson.hasError('required') || this.controlPerson.hasError('invalidAutocompleteObject'));
+    let ApartEr: boolean = (this.controlApart.hasError('required') || this.controlApart.hasError('invalidAutocompleteObject'));
+    let miss: boolean = (this.selectedApart.id == -1 || this.selectedPerson.id == -1)
+    console.log(PersonEr);
+    console.log( ApartEr );
+    console.log(miss);
+    return ( (PersonEr && ApartEr) || !miss);
+  }
+
+  Submit(item: NgForm){
+    console.log(item.valid);
   }
 }
