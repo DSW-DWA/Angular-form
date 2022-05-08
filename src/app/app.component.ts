@@ -35,6 +35,7 @@ export class AppComponent implements OnInit{
   idSelectHouse: number = 0;
   HOUSES: House[] = houses;
   
+  answer: string ="";
   
   optionsApart: Apartment[] = [...apartments];
   optionPerson: Person[] = [...persons];
@@ -160,13 +161,14 @@ export class AppComponent implements OnInit{
     let PersonEr: boolean = (this.controlPerson.hasError('required') || this.controlPerson.hasError('invalidAutocompleteObject'));
     let ApartEr: boolean = (this.controlApart.hasError('required') || this.controlApart.hasError('invalidAutocompleteObject'));
     let miss: boolean = (this.selectedApart.id == -1 || this.selectedPerson.id == -1)
-    console.log(PersonEr);
-    console.log( ApartEr );
-    console.log(miss);
-    return ( (PersonEr && ApartEr) || !miss);
+    return (!PersonEr && !ApartEr && !miss);
   }
 
-  Submit(item: NgForm){
-    console.log(item.valid);
+  Submit(){
+    let houseName: string ="";
+    this.HOUSES.forEach(item =>{
+      if (item.id == this.idSelectHouse) {houseName = houseName + item.name}
+    })
+    this.answer = this.answer + "{ house: " +houseName+ ", apartment: "+this.selectedApart.name.slice(this.selectedApart.name.search(',')+2,this.selectedApart.name.length)+", person: "+this.selectedPerson.name+"}.";
   }
 }

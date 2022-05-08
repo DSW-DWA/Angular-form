@@ -1,5 +1,5 @@
-<h4>Форма поиска жителя</h4>
-<form #searcPesonForm="ngForm" (ngSubmit)="Submit(searcPesonForm)"  novalidate>
+<h4>Форма поиска проживающего</h4>
+<form #searcPesonForm="ngForm" novalidate>
   <mat-form-field appearance="fill">
     <mat-label class="label-house">Дом</mat-label>
     <mat-select [(value)]="idSelectHouse" (valueChange)="ChangeApart()">
@@ -48,6 +48,6 @@
     <mat-error *ngIf="controlPerson.hasError('required')">Это поле должно быть заполнено</mat-error>
     <mat-error *ngIf="controlPerson.hasError('invalidAutocompleteObject')">Нужно выбрать значение из списка</mat-error>
   </mat-form-field>
-  <button mat-raised-button type="submit" [disabled]="!Check()" color="primary">Готово</button>
-
+  <button mat-raised-button type="submit" [disabled]="!Check()" (click)="Submit()" color="primary">Готово</button>
 </form>
+{{answer}}
