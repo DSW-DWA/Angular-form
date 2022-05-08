@@ -165,6 +165,7 @@ export class AppComponent implements OnInit{
   }
 
   Submit(){
+    this.answer = this.answer.replace(this.answer, "");
     this.answer = this.answer + "{ house: " +this.selectedApart.name.slice(0,this.selectedApart.name.search(','))+ ", apartment: "+this.selectedApart.name.slice(this.selectedApart.name.search(',')+2,this.selectedApart.name.length)+", person: "+this.selectedPerson.name+"}.";
   }
 }
